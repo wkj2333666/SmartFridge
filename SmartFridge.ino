@@ -63,4 +63,5 @@ void loop() {
   // delay(10000);
 
   server.handleClient();
+  delay(2);
 }
