@@ -1,22 +1,49 @@
 #include "camera_init.h"
 #include <WiFi.h>
 #include <SPIFFS.h>
+#include "config.h"
 
 // Server
 #include <WebServer.h>
 #include <ArduinoJson.h>
 #include "router.h"
 
-// ===========================
-// Enter your WiFi credentials
-// ===========================
-const char* ssid = "wkj24";
-const char* password = "wkj24wkj";
-
 void startCameraServer();
 
+bool previousSignal = 0;
+bool currentSignal = 0;
+bool ShotSignal = 0;
+long duration = 0;
+int distance = 0;
+
+bool detect_object() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin,HIGH);
+  distance = duration * 0.034 / 2;
+  if (distance<brigeHeight){
+    currentSignal = 1;
+  } else {
+    currentSignal = 0;
+  }
+  if(currentSignal != previousSignal){
+    ShotSignal = 1;
+  }else{
+    ShotSignal = 0;
+  }
+  previousSignal = currentSignal;
+
+  return ShotSignal;
+}
+
 void setup() {
-  Serial.begin(115200);
+  pinMode(trigPin,OUTPUT);
+  pinMode(echoPin,INPUT);
+
+  Serial.begin(SERIAL_PORT);
   while(!Serial);
   Serial.setDebugOutput(true);
   Serial.println();
@@ -64,4 +91,8 @@ void loop() {
 
   server.handleClient();
   delay(2);
+  if (detect_object()){
+    Serial.println("shot!");
+  }
+  delay(50);
 }

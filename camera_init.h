@@ -1,3 +1,4 @@
+#pragma once
 #include "esp_camera.h"
 
 #define CAMERA_MODEL_XIAO_ESP32S3 // Has PSRAM
