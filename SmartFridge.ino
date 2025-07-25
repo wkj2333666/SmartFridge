@@ -9,13 +9,26 @@
 #include <ArduinoJson.h>
 #include "router.h"
 
-// void startCameraServer();
+// Subtask
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 bool previousSignal = 0;
 bool currentSignal = 0;
 bool ShotSignal = 0;
 long duration = 0;
 int distance = 0;
+
+// 服务器任务句柄
+TaskHandle_t serverTaskHandle = NULL;
+
+// 服务器处理任务
+void serverTask(void *parameter) {
+  for (;;) {
+    server.handleClient();
+    vTaskDelay(pdMS_TO_TICKS(2)); // 2ms延迟
+  }
+}
 
 bool detect_object() {
   digitalWrite(trigPin, LOW);
@@ -69,8 +82,6 @@ void setup() {
   Serial.print("Local IP: ");
   Serial.println(WiFi.localIP());
 
-  // startCameraServer();
-
   Serial.print("Camera Ready! Use 'http://");
   Serial.print(WiFi.localIP());
   Serial.println("' to connect");
@@ -85,17 +96,23 @@ void setup() {
   Serial.print("HTTP server started on port ");
   Serial.println(SERVER_PORT);
 
-  // Heap<int> h1;
+  // 创建专用任务处理服务器
+  xTaskCreatePinnedToCore(
+    serverTask,       // 任务函数
+    "ServerTask",     // 任务名称
+    10000,            // 堆栈大小（字节）
+    NULL,             // 任务参数
+    1,                // 任务优先级（0-24，越大越高）
+    &serverTaskHandle,// 任务句柄
+    0                 // 运行在核心0（推荐）
+  );
 }
 
 void loop() {
-  // Do nothing. Everything is done in another task by the web server
-  // delay(10000);
-
-  server.handleClient();
-  delay(2);
+  // server.handleClient();
+  // delay(2);
   if (detect_object()){
     Serial.println("shot!");
   }
-  delay(50);
+  delay(100);
 }
