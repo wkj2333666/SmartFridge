@@ -4,7 +4,16 @@
 #define CAMERA_MODEL_XIAO_ESP32S3 // Has PSRAM
 #include "camera_pins.h"
 
-void setupLedFlash(int pin);
+void setupLedFlash(int pin) 
+{
+    #if CONFIG_LED_ILLUMINATOR_ENABLED
+    ledcSetup(LED_LEDC_CHANNEL, 5000, 8);
+    ledcAttachPin(pin, LED_LEDC_CHANNEL);
+    #else
+    log_i("LED flash is disabled -> CONFIG_LED_ILLUMINATOR_ENABLED = 0");
+    #endif
+}
+
 
 void init_camera() {  
   camera_config_t config;
