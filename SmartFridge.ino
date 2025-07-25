@@ -9,7 +9,7 @@
 #include <ArduinoJson.h>
 #include "router.h"
 
-void startCameraServer();
+// void startCameraServer();
 
 bool previousSignal = 0;
 bool currentSignal = 0;
@@ -69,7 +69,7 @@ void setup() {
   Serial.print("Local IP: ");
   Serial.println(WiFi.localIP());
 
-  startCameraServer();
+  // startCameraServer();
 
   Serial.print("Camera Ready! Use 'http://");
   Serial.print(WiFi.localIP());
