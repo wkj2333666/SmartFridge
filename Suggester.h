@@ -4,9 +4,9 @@ template <class T>
 class Heap {
     std::vector<T> data;
 public:
-    Heap<T>();
-    ~Heap<T>();
-    void push_back();
+    Heap();
+    ~Heap();
+    void push_back(const T&);
     void insert(const T& element);
     T& borrowTop();
     const T& borrowTop() const;
@@ -14,9 +14,13 @@ public:
 
 private:
     void siftUp(int idx);
-    void sifgtDown(int idx);
+    void siftDown(int idx);
 
 public:
     bool isEmpty();
     int size();
+    typename std::vector<T>::iterator begin();
+    typename std::vector<T>::const_iterator begin() const;
+    typename std::vector<T>::iterator end();
+    typename std::vector<T>::const_iterator end() const;
 };
