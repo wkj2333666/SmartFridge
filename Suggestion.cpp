@@ -1,6 +1,6 @@
 #include "Suggester.h"
 #include "config.h"
-#include <algorithm>
+// #include <algorithm>
 #include <cassert>
 
 template <class T>
@@ -85,7 +85,9 @@ void Heap<T>::siftUp(int idx) {
 
     int parent = idx / 2;
     if (data[parent] > data[idx]) {
-        swap(data[idx], data[parent]);
+        T tmp = data[idx];
+        data[idx] = data[parent];
+        data[parent] = tmp;
         siftUp(parent);
     }
 }
@@ -106,7 +108,9 @@ void Heap<T>::siftDown(int idx) {
     }
 
     if (data[idx] > data[idx_bigger]) {
-        swap(data[idx], data[idx_less]);
+        T tmp = data[idx];
+        data[idx] = data[idx_less];
+        data[idx_less] = tmp;
         siftDown(idx_less);
     }
 }
@@ -202,7 +206,9 @@ void Heap<T*>::siftUp(int idx) {
 
     int parent = idx / 2;
     if (*data[parent] > *data[idx]) {
-        swap(data[idx], data[parent]);
+        T* tmp = data[idx];
+        data[idx] = data[parent];
+        data[parent] = tmp;
         siftUp(parent);
     }
 }
@@ -223,7 +229,9 @@ void Heap<T*>::siftDown(int idx) {
     }
 
     if (*data[idx] > *data[idx_bigger]) {
-        swap(data[idx], data[idx_less]);
+        T* tmp = data[idx];
+        data[idx] = data[idx_less];
+        data[idx_less] = tmp;
         siftDown(idx_less);
     }
 }
