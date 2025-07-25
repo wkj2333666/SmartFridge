@@ -2,6 +2,7 @@
 #include <WiFi.h>
 #include <SPIFFS.h>
 #include "config.h"
+#include "Suggester.h"
 
 // Server
 #include <WebServer.h>
@@ -83,6 +84,8 @@ void setup() {
   server.begin();
   Serial.print("HTTP server started on port ");
   Serial.println(SERVER_PORT);
+
+  // Heap<int> h1;
 }
 
 void loop() {
