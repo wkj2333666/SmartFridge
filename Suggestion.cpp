@@ -46,13 +46,13 @@ void Heap<T>::push_back(const T& element) {
 
 template <class T>
 T& Heap<T>::borrowTop() {
-    assert data.size() > 1;
+    assert(data.size() > 1);
     return data[1];
 }
 
 template <class T>
 const T& Heap<T>::borrowTop() const {
-    assert data.size() > 1;
+    assert(data.size() > 1);
     return data[1];
 }
 
@@ -63,15 +63,15 @@ void Heap<T>::insert(const T& element) {
         return;
     }
 
-    idx = data.size();
+    int idx = data.size();
     data.push_back(element);
     siftUp(idx);
 }
 
 template <class T>
 T Heap<T>::extractTop() {
-    assert data.size() > 1;
-    top = data[1];
+    assert(data.size() > 1);
+    T top = data[1];
     data[1] = data.back();
     data.pop_back();
     siftDown(1);
@@ -80,7 +80,7 @@ T Heap<T>::extractTop() {
 
 template <class T>
 void Heap<T>::siftUp(int idx) {
-    assert idx > 1 && idx < data.size();
+    assert(idx > 1 && idx < data.size());
     if (idx == 1) return;
 
     int parent = idx / 2;
@@ -92,7 +92,7 @@ void Heap<T>::siftUp(int idx) {
 
 template <class T>
 void Heap<T>::siftDown(int idx) {
-    assert data.size() > 1;
+    assert(data.size() > 1);
     int idx_left = 2 * idx;
     if (idx_left >= data.size()) return;
 
@@ -156,19 +156,19 @@ typename std::vector<T>::const_iterator Heap<T*>::end() const {
 }
 
 template <class T>
-void Heap<T*>::push_back(const T* const) {
+void Heap<T*>::push_back(const T* const element) {
     data.push_back(element);
 }
 
 template <class T>
 T* const Heap<T*>::borrowTop() {
-    assert data.size() > 1;
+    assert(data.size() > 1);
     return data[1];
 }
 
 template <class T>
 const T* const Heap<T*>::borrowTop() const {
-    assert data.size() > 1;
+    assert(data.size() > 1);
     return data[1];
 }
 
@@ -179,7 +179,7 @@ void Heap<T*>::insert(const T* const element) {
         return;
     }
 
-    idx = data.size();
+    int idx = data.size();
     data.push_back(element);
     siftUp(idx);
 }
@@ -187,8 +187,8 @@ void Heap<T*>::insert(const T* const element) {
 template <class T>
 T* Heap<T*>::extractTop() {
     // give away ownership
-    assert data.size() > 1;
-    top = data[1];
+    assert(data.size() > 1);
+    T* top = data[1];
     data[1] = data.back();
     data.pop_back();
     siftDown(1);
@@ -197,7 +197,7 @@ T* Heap<T*>::extractTop() {
 
 template <class T>
 void Heap<T*>::siftUp(int idx) {
-    assert idx > 1 && idx < data.size();
+    assert(idx > 1 && idx < data.size());
     if (idx == 1) return;
 
     int parent = idx / 2;
@@ -209,7 +209,7 @@ void Heap<T*>::siftUp(int idx) {
 
 template <class T>
 void Heap<T*>::siftDown(int idx) {
-    assert data.size() > 1;
+    assert(data.size() > 1);
     int idx_left = 2 * idx;
     if (idx_left >= data.size()) return;
 
